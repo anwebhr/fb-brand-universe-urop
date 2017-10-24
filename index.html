@@ -14,9 +14,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css"-->   
     <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"-->
-   
-    <script src="app/js/scatter.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="app/css/scatter.css" charset="utf-8">
+  
+    <script src="app/lib/jquery.easy-autocomplete.min.js"></script> 
+    <link rel="stylesheet" type="text/css" href="app/css/easy-autocomplete.min.css"> 
+    <link rel="stylesheet" type="text/css" href="app/css/easy-autocomplete.themes.min.css"> 
+    <script src="app/js/scatter.js"></script>
+    <link rel="stylesheet" type="text/css" href="app/css/scatter.css" charset="utf-8">
     <script src="app/js/site.js"></script>
     <meta charset="UTF-8">
     <title>FB Brand Universe</title>
@@ -24,16 +27,20 @@
 <body>
   <div class="container-fluid">
     <h1><center>FB Brand Universe Visualization</center></h1>
-    <div class="col-sm-12 col-md-4 col-lg-4 ui-widget">
-      <!--form name="searchForm"-->
-          <input id="searchOptions" type="text" placeholder="Input Brand Name" />
-          <button id="searchButton" class="btn btn-primary active" onclick="searchBrand()">Search</button>
-      <!--/form-->
-      
-   </div>
-    <div class="col-sm-12 col-md-8 col-lg-8" id="scatter" name="scatterPlot">
+    <div class="row">
+      <div class="col-md-1 col-lg-1"></div>
+      <div class="col-sm-12 col-md-3 col-lg-3 ui-widget">
+        <br><br><br>
+        <h4>Enter a name of a brand whose competitors (neighbors in the graph)
+            you'd like to view in detail.</h4>
+        <br><br>
+        <input id="searchOptions" type="text" placeholder="Input Brand Name" style="font-size:18pt;">
+        <br>
+        <button id="searchButton" class="btn btn-primary" style="font-size:18pt;">Search</button>
+      </div>
+      <div class="well col-sm-12 col-md-7 col-lg-7" id="scatter" name="scatterPlot">
+      </div>
     </div>
-    
   </div>
 </body>
 </html>
