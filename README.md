@@ -1,37 +1,5 @@
-## Welcome to GitHub Pages
+## FB Brand Universe Project
 
-You can use the [editor on GitHub](https://github.com/anwebhr/fb-brand-universe-urop/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+This is an Undergraduate Research Opportunities Program project to collate and display a dataset of brands collected from Facebook. The information of these brands, publicly available on their Facebook pages have been reduced to a 2 dimensional space with distance of each point from another representing how close they are in terms of category, industry or how competitive may one brand be with the other.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/anwebhr/fb-brand-universe-urop/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+All the points, as of now plotted on a scatter plot form into clusters that can be analysed and zoomed into to understand their market standpoint better in terms of competitors. Each brand on the plot is searchable using the web interface.
