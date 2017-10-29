@@ -1,5 +1,7 @@
+/******************variable declarations for d3 scatter plot***************/
+
 var margin = { top: 50, right: 300, bottom: 50, left: 50 },
-    outerWidth = 1050,
+    outerWidth = 1100,
     outerHeight = 500,
     width = outerWidth - margin.left - margin.right,
     height = outerHeight - margin.top - margin.bottom;
@@ -12,60 +14,67 @@ var y = d3.scale.linear()
 
 var xCat = "x",
     yCat = "y",
-    //rCat = "Protein (g)",
     colorCat = "brand";
 
 var brandList = [];
 var x_coords = [], y_coords = [];
+var dataset = [];
 
 d3.csv("app/src/fb.csv", function(data) {    
     data.forEach(function(d) {
         x_coords.push(parseFloat(d[xCat]));
         y_coords.push(parseFloat(d[yCat]));
         brandList.push(d[colorCat]);
+        dataset.push([d[colorCat],parseFloat(d[xCat]),parseFloat(d[yCat])]);
     });
-
+  
     var xMax = x_coords.sort(function(a,b) {return a-b})[x_coords.length-1],
         xMin = x_coords.sort(function(a,b) {return a-b})[0],
         yMax = y_coords.sort(function(a,b) {return a-b})[y_coords.length-1],
         yMin = y_coords.sort(function(a,b) {return a-b})[0];
 
+    // console.log("xMax: ", xMax);
+    // console.log("xMin: ", xMin);
+    // console.log("yMax: ", yMax);
+    // console.log("yMin: ", yMin);
+    
     x.domain([xMin, xMax]);
     y.domain([yMin, yMax]);
-
+    
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom")
         .tickSize(-height);
-
+    
     var yAxis = d3.svg.axis()
         .scale(y)
         .orient("left")
         .tickSize(-width);
-
+    
     var color = d3.scale.category10();
-
+    
     var tip = d3.tip()
         .attr("class", "d3-tip")
         .offset([-10, 0])
         .html(function(d) {
             return d[colorCat] + "<br>" + "(" + d[xCat] + ", " + d[yCat] + ")";
     });
-
+    
     var zoomBeh = d3.behavior.zoom()
         .x(x)
         .y(y)
         .scaleExtent([0, 500])
         .on("zoom", zoom);
-
+    
     var svg = d3.select("#scatter")
         .append("svg")
+        .attr("id", "main_svg")
         .attr("width", outerWidth)
         .attr("height", outerHeight)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
         .call(zoomBeh);
-
+    
     svg.call(tip);
 
     svg.append("rect")
@@ -128,18 +137,33 @@ d3.csv("app/src/fb.csv", function(data) {
 
     legend.append("circle")
         .attr("cx", width + 20)
-        .attr("fill", color);
-    
-    
-    function change() {
+        .attr("fill", color);   
+
+    function zoomIntoBrand(selectedBrand, x_measure, y_measure){
         xCat = "x";
-        xMax = d3.max(data, function(d) { return d[xCat]; });
-        xMin = d3.min(data, function(d) { return d[xCat]; });
-        zoomBeh.x(x.domain([xMin, xMax])).y(y.domain([yMin, yMax]));
+        yCat = "y";
+        zoomBeh.x(x.domain([x_measure-5, x_measure+5])).y(y.domain([y_measure-3, y_measure+3]));
+                
         var svg = d3.select("#scatter").transition();
-        svg.select(".x.axis").duration(750).call(xAxis).select(".label").text(xCat);
+        svg.select(".x.axis").duration(1000).call(xAxis).select(".label").text(xCat);
+        svg.select(".y.axis").duration(1000).call(yAxis).select(".label").text(yCat);
         objects.selectAll(".dot").transition().duration(1000).attr("transform", transform);
     }
+    /*
+    function change() {
+        xCat = "x";
+        yCat = "y";
+        xMax = d3.max(data, function(d) { return d[xCat]; });
+        xMin = d3.min(data, function(d) { return d[xCat]; });
+        yMax = d3.max(data, function(d) { return d[yCat]; });
+        yMin = d3.min(data, function(d) { return d[yCat]; });
+        zoomBeh.y(y.domain([yMin, yMax])).x(x.domain([xMin, xMax]));
+                
+        var svg = d3.select("#scatter").transition();
+        svg.select(".x.axis").duration(750).call(xAxis).select(".label").text(xCat);
+        svg.select(".y.axis").duration(750).call(yAxis).select(".label").text(yCat);
+        objects.selectAll(".dot").transition().duration(1000).attr("transform", transform);
+    }*/
 
     function zoom() {
         svg.select(".x.axis").call(xAxis);
@@ -153,8 +177,10 @@ d3.csv("app/src/fb.csv", function(data) {
         return "translate(" + x(d[xCat]) + "," + y(d[yCat]) + ")";
     }
 
+   /********render of search feature and call of function*************/
+
     var options_autocomplete = {
-        data: brandList.sort(),
+        data: brandList,
         list: {
             match: {
                 enabled: true
@@ -174,25 +200,24 @@ d3.csv("app/src/fb.csv", function(data) {
 
     d3.select("button").on("click", searchBrand);
 
+    /*********search and modify scatter plot accordingly***************/
+
     function searchBrand() {
     
         var selectedBrand = $('#searchOptions').val();
         var index = -1;
-        for (var i=0; i<brandList.length; i++) {
-            if(brandList[i] === selectedBrand){
+        for (var i=0; i<dataset.length; i++) {
+            if(dataset[i][0] == selectedBrand){
                 index = i;
             }
         }
-        if(index != -1){
-            alert("Brand Name: "+ selectedBrand + "\n" +
-            "X Coordinate: "+ x_coords[index] + "\n"+
-            "Y Coordinate: "+ y_coords[index] );
+        if(index != -1) {
+            zoomIntoBrand(selectedBrand, dataset[index][1], dataset[index][2]);
         }
-        else{
-            alert("Brand "+ selectedBrand + " not found");
+        else {
+            alert("Sorry! Brand "+ selectedBrand + " not found.");
         }
     }
-    
 });
 
 
