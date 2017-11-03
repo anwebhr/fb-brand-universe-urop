@@ -14,20 +14,20 @@ var y = d3.scale.linear()
 
 var xCat = "x",
     yCat = "y",
-    colorCat = "brand";
+    brandCat = "brand";
 
 var brandList = [];
 var x_coords = [], y_coords = [];
-var dataset = [];
+var dataset_coords_info = [];
 
-d3.csv("app/src/fb.csv", function(data) {    
+d3.csv("/app/src/merged_fb_data_coords.csv", function(data){ 
     data.forEach(function(d) {
         x_coords.push(parseFloat(d[xCat]));
         y_coords.push(parseFloat(d[yCat]));
-        brandList.push(d[colorCat]);
-        dataset.push([d[colorCat],parseFloat(d[xCat]),parseFloat(d[yCat])]);
+        brandList.push(d[brandCat]);
+        dataset_coords_info.push([d[brandCat],parseFloat(d[xCat]),parseFloat(d[yCat])]);
     });
-  
+
     var xMax = x_coords.sort(function(a,b) {return a-b})[x_coords.length-1],
         xMin = x_coords.sort(function(a,b) {return a-b})[0],
         yMax = y_coords.sort(function(a,b) {return a-b})[y_coords.length-1],
@@ -57,7 +57,7 @@ d3.csv("app/src/fb.csv", function(data) {
         .attr("class", "d3-tip")
         .offset([-10, 0])
         .html(function(d) {
-            return d[colorCat] + "<br>" + "(" + d[xCat] + ", " + d[yCat] + ")";
+            return d[brandCat] + "<br>" + "(" + d[xCat] + ", " + d[yCat] + ")";     //remove the coordinates
     });
     
     var zoomBeh = d3.behavior.zoom()
@@ -124,8 +124,16 @@ d3.csv("app/src/fb.csv", function(data) {
         .enter().append("circle")
         .classed("dot", true)
         .attr("r", 4)
+        .attr("r", function(d) {
+            if(d["likes"] <= 30000)
+                return 3;
+            else if(d["likes"] > 30000 && d["likes"] <= 477000)
+                return 5;
+            else    
+                return 7;
+        })
         .attr("transform", transform)
-        .style("fill", function(d) { return color(d[colorCat]); })
+        .style("fill", function(d) { return color(d[brandCat]); })
         .on("mouseover", tip.show)
         .on("mouseout", tip.hide);
 
@@ -147,7 +155,12 @@ d3.csv("app/src/fb.csv", function(data) {
         var svg = d3.select("#scatter").transition();
         svg.select(".x.axis").duration(1000).call(xAxis).select(".label").text(xCat);
         svg.select(".y.axis").duration(1000).call(yAxis).select(".label").text(yCat);
-        objects.selectAll(".dot").transition().duration(1000).attr("transform", transform);
+        objects.selectAll(".dot")
+            .transition().duration(1000).attr("transform", transform)
+            //.filter(function(d) { return d["brand"] == selectedBrand; })
+            //   .transition().duration(1000).call(tip.show);//attr('class', 'd3-tip animate').call(tip.show);
+            //.transition().duration(10000).style("pointer-events", "all");
+        
     }
     /*
     function change() {
@@ -177,7 +190,7 @@ d3.csv("app/src/fb.csv", function(data) {
         return "translate(" + x(d[xCat]) + "," + y(d[yCat]) + ")";
     }
 
-   /********render of search feature and call of function*************/
+/********render of search feature and call of function*************/
 
     var options_autocomplete = {
         data: brandList,
@@ -206,13 +219,13 @@ d3.csv("app/src/fb.csv", function(data) {
     
         var selectedBrand = $('#searchOptions').val();
         var index = -1;
-        for (var i=0; i<dataset.length; i++) {
-            if(dataset[i][0] == selectedBrand){
+        for (var i=0; i<dataset_coords_info.length; i++) {
+            if(dataset_coords_info[i][0] == selectedBrand){
                 index = i;
             }
         }
         if(index != -1) {
-            zoomIntoBrand(selectedBrand, dataset[index][1], dataset[index][2]);
+            zoomIntoBrand(selectedBrand, dataset_coords_info[index][1], dataset_coords_info[index][2]);
         }
         else {
             alert("Sorry! Brand "+ selectedBrand + " not found.");
