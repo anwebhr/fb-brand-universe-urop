@@ -22,7 +22,7 @@ var dataset_coords_info = [];
 var searchedBrand = "None";
 //var norm_network_data = null;
 
-d3.csv("/app/src/merged_fb_data_coords.csv", function(data){ 
+d3.csv("app/src/merged_fb_data_coords.csv", function(data){ 
     data.forEach(function(d) {
         x_coords.push(parseFloat(d[xCat]));
         y_coords.push(parseFloat(d[yCat]));
