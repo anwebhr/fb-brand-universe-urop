@@ -264,7 +264,7 @@ d3.csv("app/src/merged_fb_data_coords.csv", function(data){
         //find the relevant file's name
         var lower_bound = parseInt(selectedBrandID / 10) * 10 ;//if selectedBrandID = 3 then lower_bound = 0, upper_bound = 9
         var upper_bound = parseInt(selectedBrandID / 10) * 10 + 9;
-        var path = '/app/src/network_info/'+ String(lower_bound) + '-' + String(upper_bound) +'.csv' 
+        var path = 'app/src/network_info/'+ String(lower_bound) + '-' + String(upper_bound) +'.csv' 
         d3.csv(path, function(obj_list){ 
             var stop_condn = false;
             var reading_values = false;
