@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <script src="app/lib/d3.v3.min.js"></script>
+    <!--script src="https://d3js.org/d3.v4.min.js"></script-->
+    <!--script src="app/lib/d3.v4.0.0-alpha.45.min.js"></script-->
+    <!--script src="app/lib/d3.v4.js"></script-->
     <script src="app/lib/d3.tip.v0.8.0-alpha.1.js"></script>
     <!--script src="https://d3js.org/d3-selection.v1.min.js"></script-->
     <!--<link rel="stylesheet" href="lib/bootstrap.min.css">-->
@@ -28,24 +31,38 @@
     <script src="app/js/site.js"></script>
     <!--script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script--> 
     <meta charset="UTF-8">
-    
+    <style>
+      .links line {
+      stroke: #999;
+      stroke-opacity: 0.6;
+    }
+    </style>
     <title>FB Brand Universe</title>
 </head>
 <body>
-  <div class="container-fluid">
+  <div>
     <h1><center>FB Brand Universe Visualization</center></h1>
     <div class="row">
       <div class="col-md-1 col-lg-1"></div>
       <div class="col-sm-12 col-md-3 col-lg-3 ui-widget">
         <br><br><br>
-        <h4>Enter a name of a brand whose competitors (neighbors in the graph)
-            you'd like to view in detail.</h4>
+        <h4>Enter a name of a brand that you want to focus on in detail.</h4>
         <br><br>
         <input id="searchOptions" type="text" placeholder="Input Brand Name" style="font-size:18pt;">
         <br>
-        <button id="searchButton" class="btn btn-primary" style="font-size:18pt;">Search</button>
+        <button id="searchButton1" class="btn btn-primary" style="font-size:12pt;">Search in vicinity</button>
+        <br><br>
+        <h4>Cross-Industry Relationships</h4>
+        <p>Enter the number of cross-industry similar brands you want to view: </p>
+        <input id="numSimilarBrands" type="number" min="1" max="100" placeholder="Integers only">
+        <br><br>
+        <div class="inline-block" style="margin-right: 10px;">
+            <button id="searchButton2" class="btn btn-primary" style="font-size:12pt">View links</button>
+            <button id="refreshButton" class="btn" style="font-size:12pt;">Remove links</button>
+        </div>
       </div>
       <div class="well col-sm-12 col-md-7 col-lg-7" id="scatter" name="scatterPlot">
+        <p>You can hover over any point to view its name in a bigger font and scroll to zoom and drag to pan.</p>
       </div>
     </div>
   </div>
