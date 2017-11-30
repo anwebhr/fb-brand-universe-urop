@@ -75,7 +75,14 @@ d3.csv("app/src/merged_fb_data_coords.csv", function(data){
         .attr("height", outerHeight)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-        .call(zoomBeh);
+        .call(zoomBeh)
+        .on("click", function(){
+            d3.select(this).selectAll("text").remove();
+        })
+        .on("wheel", function(){
+            if(zoomAndPanEnabled)
+                d3.select(this).selectAll("text").remove();
+        });
     
     svg.call(tip);
 
