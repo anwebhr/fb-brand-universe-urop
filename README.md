@@ -5,3 +5,5 @@ This is an HKUST Undergraduate Research Opportunities Program project to collate
 All the points, as of now plotted on a scatter plot form into clusters that can be analysed and zoomed into to understand their market standpoint better in terms of competitors. Each brand on the plot is searchable using the web interface.
 
 The plot has been created using native D3.js, jQuery and Javascript along with Bootstrap for minor aesthetics.
+
+The output of this project can be viewed at https://anwebhr.github.io/fb-brand-universe-urop/
